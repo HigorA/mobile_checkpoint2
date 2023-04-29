@@ -32,7 +32,7 @@ export default function Login() {
           />
         </label>
         <br />
-        <button type="submit">Login</button>
+        <button type="submit"></button>
       </form>
     </View>
   );
