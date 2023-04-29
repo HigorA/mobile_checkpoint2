@@ -32,7 +32,7 @@ export default function Login() {
           />
         </label>
         <br />
-        <button type="submit">ASdasd</button>
+        <button type="submit">Login</button>
       </form>
     </View>
   );
