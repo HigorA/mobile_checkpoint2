@@ -22,4 +22,34 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+
+    form: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+
+        input: {
+            marginBottom: 10,
+            padding: 10,
+            width: 300,
+            borderRadius: 5,
+            border: 1, solid, #ccc
+            
+        },
+
+        button: {
+            backgroundColor: "#0077ff",
+            color: '#fff',
+            border: 'none',
+            borderRadius: 5,
+            padding: 10,
+            paddingRight: 20,
+        },
+
+    }
+
+  
+    
   });

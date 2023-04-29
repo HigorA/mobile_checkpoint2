@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View } from "react-native";
+import { Button, Text, StyleSheet} from "react-native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function Login() {
 
   return (
     <View>
-      <h2>Login</h2>
+      <Text>Login</Text>
       <form onSubmit={handleSubmit}>
         <label>
           Email:
@@ -32,7 +33,7 @@ export default function Login() {
           />
         </label>
         <br />
-        <button type="submit">Login</button>
+        <Button type="submit">Login</Button>
       </form>
     </View>
   );

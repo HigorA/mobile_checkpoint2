@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View } from "react-native";
+import { Button, Text, StyleSheet} from "react-native";
 
 
 export default function Register() {
@@ -7,7 +8,7 @@ export default function Register() {
 
     return (
         <View>
-            <h2>Cadastro</h2>
+            <Text>Cadastro</Text>
             <form onSubmit={handleRegisterSubmit}>
                 <label>
                         Email:
@@ -28,7 +29,7 @@ export default function Register() {
                     />
                 </label>
                 <br />
-                <button type="submit">Cadastro</button>
+                <Button type="submit">Cadastro</Button>
             </form>
         </View>
   );
