@@ -14,10 +14,10 @@ export default function Login() {
   return (
     <View>
       <Text>Login</Text>
-      <form onSubmit={handleSubmit}>
+      <form style={styles.form} onSubmit={handleSubmit}>
         <label>
           Email:
-          <input
+          <input style={styles.input}
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -26,14 +26,14 @@ export default function Login() {
         <br />
         <label>
           Senha:
-          <input
+          <input style={styles.input}
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>
         <br />
-        <Button type="submit">Login</Button>
+        <Button style={styles.button} type="submit">Login</Button>
       </form>
     </View>
   );

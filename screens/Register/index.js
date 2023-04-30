@@ -9,10 +9,10 @@ export default function Register() {
     return (
         <View>
             <Text>Cadastro</Text>
-            <form onSubmit={handleRegisterSubmit}>
+            <form style={styles.form} onSubmit={handleRegisterSubmit}>
                 <label>
                         Email:
-                    <input
+                    <input style={styles.input}
                     type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
@@ -22,14 +22,14 @@ export default function Register() {
 
                 <label>
                     Senha:
-                    <input
+                    <input style={styles.input}
                     type="password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     />
                 </label>
                 <br />
-                <Button type="submit">Cadastro</Button>
+                <Button style={styles.button} type="submit">Cadastro</Button>
             </form>
         </View>
   );
