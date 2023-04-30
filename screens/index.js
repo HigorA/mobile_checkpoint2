@@ -35,8 +35,9 @@ const styles = StyleSheet.create({
             padding: 10,
             width: 300,
             borderRadius: 5,
-            border: 1, solid, #ccc
-            
+            borderWidth: 5,
+            borderStyle: 'solid',
+            borderColor: 'black'
         },
 
         button: {
