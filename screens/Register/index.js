@@ -1,28 +1,66 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { Button, Text, TextInput, View } from "react-native";
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup'; 
+
+
+const schema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().required()
+})
 
 
 export default function Register() {
     
+    const { control, handleSubmit, formState:{ errors } } = useForm({
+        resolver: yupResolver(schema)
+    })
+
+    const onSubmit = data => (
+        console.log(data)
+        );
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.buttonText}>Register</Text>
-            <View style={styles.form}>
-                <View>
-                    <Text>E-mail</Text>
-                    <TextInput style={styles.input} />
-                </View>
-            </View>
+        <View style = {styles.container}>
+            <Controller
+                control={control}
+                rules={{
+                    required: true,
+                }}
+                render={({ field: { onChange, onBlur, value}}) => (
+                    <TextInput style = {styles.input}
+                        placeholder="email"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                    />
+                )}
+                name="email"
+            />
+            {errors.email && <Text>This is required.</Text>}
 
-            <View>
-                <Text>Password</Text>
-                <TextInput style={styles.input}/>
-            </View>
-            <Pressable style={styles.button}><Text style={styles.buttonText}>Register</Text></Pressable>
-        </View>    
-        
-  );
-}
+            <Controller
+                control={control}
+                rules={{
+                    required: true,
+                }}
+                render={({ field: { onChange, onBlur, value}}) => (
+                    <TextInput style = {styles.input}
+                        placeholder="Password"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        secureTextEntry={true}
+                    />
+                )}
+                name="password"
+            />
+            {errors.password && <Text>This is required.</Text>}
+            <Button style = {styles.button} title="Submit" onPress={handleSubmit(onSubmit)} />
+        </View>
+    )
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -67,3 +105,4 @@ const styles = StyleSheet.create({
         fontSize: 20,
     }
 });
+
