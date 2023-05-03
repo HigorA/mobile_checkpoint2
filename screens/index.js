@@ -5,10 +5,10 @@ export default function Home({ navigation }) {
     return (
         <View style={styles.container}>
             <Text>Home</Text>
-            <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}><Text>Play</Text></Pressable>
             <Pressable style={styles.button} onPress={() => navigation.navigate('Register')}><Text>Register</Text></Pressable>
             <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}><Text>Login</Text></Pressable>
-            <Pressable style={styles.button} ><Text>Ranking</Text></Pressable>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('Ranking')}><Text>Ranking</Text></Pressable>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('Play')}><Text>Play</Text></Pressable>
         </View>
     )
 };

@@ -5,6 +5,9 @@ import Home from './screens';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import Formulario from './screens/Teste';
+import Ranking from './screens/Ranking';
+import Play from './screens/Play';
+import Game from './components/Game';
 
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +19,9 @@ export default function App() {
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Login' component={Login} />
         <Stack.Screen name='Register' component={Register} />
-        <Stack.Screen name='Formulario' component={Formulario} />
+        <Stack.Screen name='Ranking' component={Ranking} />
+        <Stack.Screen name='Play' component={Play} />
+        <Stack.Screen name='Game' component={Game} />
       </Stack.Navigator>
     </NavigationContainer>
   );
