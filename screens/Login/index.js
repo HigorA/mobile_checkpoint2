@@ -1,46 +1,64 @@
-import { useState } from "react";
-import { View, Button, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { Button, Text, TextInput, View } from "react-native";
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-export default function Login( { navigation } ) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    Login(email, password);
-  };
+const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required()
+})
+
+
+export default function Login() {
+  
+  const { control, handleSubmit, formState:{ errors } } = useForm({
+      resolver: yupResolver(schema)
+  })
+
+  const onSubmit = data => (
+      console.log(data)
+      );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View style={styles.form}>
-        <View>
-            <Text style={styles.buttonTitle}>E-mail</Text>
-            <TextInput style={styles.input} />
-        </View>
-        <View>
-            <Text style={styles.buttonTitle}>Password</Text>
-            <TextInput style={styles.input}/>
-        </View>
-        <Pressable 
-          
-          style={styles.button}>
-          <Text style={styles.buttonTitle}>Login</Text>
-        </Pressable>
-        <Pressable 
-          
-          style={styles.button}>
-          <Text style={styles.buttonTitle}>Google</Text>
-        </Pressable>
-        <Pressable 
-          onPress={() => navigation.navigate('Register')}
-          style={styles.button}>
-          <Text style={styles.buttonTitle}>Register</Text>
-        </Pressable>
+      <View style = {styles.container}>
+          <Controller
+              control={control}
+              rules={{
+                  required: true,
+              }}
+              render={({ field: { onChange, onBlur, value}}) => (
+                  <TextInput style = {styles.input}
+                      placeholder="email"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                  />
+              )}
+              name="email"
+          />
+          {errors.email && <Text>This is required.</Text>}
+
+          <Controller
+              control={control}
+              rules={{
+                  required: true,
+              }}
+              render={({ field: { onChange, onBlur, value}}) => (
+                  <TextInput style = {styles.input}
+                      placeholder="Password"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                  />
+              )}
+              name="password"
+          />
+          {errors.password && <Text>This is required.</Text>}
+          <Button style = {styles.button} title="Submit" onPress={handleSubmit(onSubmit)} />
       </View>
-    </View>
-  );
-}
+  )
+};
 
 const styles = StyleSheet.create({
     container: {
