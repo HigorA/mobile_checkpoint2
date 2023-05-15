@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Button, Text, StyleSheet, TextInput, Pressable } from "react-native";
 
-export default function Login() {
+export default function Login( { navigation } ) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,37 +12,32 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.buttonText}>Login</Text>
+      <Text style={styles.title}>Login</Text>
       <View style={styles.form}>
         <View>
-            <Text>E-mail</Text>
+            <Text style={styles.buttonTitle}>E-mail</Text>
             <TextInput style={styles.input} />
         </View>
         <View>
-            <Text>Password</Text>
+            <Text style={styles.buttonTitle}>Password</Text>
             <TextInput style={styles.input}/>
         </View>
-        <Pressable style={styles.button}><Text style={styles.buttonText}>Login</Text></Pressable>
+        <Pressable 
+          
+          style={styles.button}>
+          <Text style={styles.buttonTitle}>Login</Text>
+        </Pressable>
+        <Pressable 
+          
+          style={styles.button}>
+          <Text style={styles.buttonTitle}>Google</Text>
+        </Pressable>
+        <Pressable 
+          onPress={() => navigation.navigate('Register')}
+          style={styles.button}>
+          <Text style={styles.buttonTitle}>Register</Text>
+        </Pressable>
       </View>
-      {/* <form style={styles.form} onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input style={styles.input}
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </label>
-        <label>
-          Senha:
-          <input style={styles.input}
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-        <Button style={styles.button} type="submit" title="Login" />
-      </form> */}
     </View>
   );
 }
@@ -50,7 +45,7 @@ export default function Login() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#121214',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -61,6 +56,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
+        gap: 15
     },
 
     input: {
@@ -70,22 +66,29 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 5,
         borderStyle: 'solid',
-        borderColor: 'black'
+        borderColor: '#04d361'
     },
 
     button: {
-        backgroundColor: "#d4cde8",
-        color: '#fff',
-        border: 'none',
-        borderRadius: 5,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+      backgroundColor: "#271a45",
+      border: 'none',
+      borderRadius: 5,
+      height: 45,
+      width: 100,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
 
-    buttonText: {
-        fontWeight: '500',
-        fontSize: 20,
-    }
+    buttonTitle: {
+        color: 'white',
+        textAlign: 'center'
+    },
+
+    title: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#04d361'
+  }
+
 });
