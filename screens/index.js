@@ -1,16 +1,21 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Home({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>Home</Text>
-            <Button 
-                title="Login"
-                onPress={() => navigation.navigate('Login')}/>
-            <Button 
-                title="Register"
-                onPress={() => navigation.navigate('Register')}/>
+            <Text style={styles.title}>Genius</Text>
+            <View style={styles.buttonView}>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('Play')}>
+                    <Text style={styles.buttonTitle}>Play</Text>
+                </Pressable>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.buttonTitle}>Login</Text>
+                </Pressable>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('Ranking')}>
+                    <Text style={styles.buttonTitle}>Ranking</Text>
+                </Pressable>
+            </View>
         </View>
     )
 };
@@ -20,37 +25,36 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
+      gap: 20,
+      backgroundColor: '#121214'
     },
 
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-
-        input: {
-            marginBottom: 10,
-            padding: 10,
-            width: 300,
-            borderRadius: 5,
-            borderWidth: 5,
-            borderStyle: 'solid',
-            borderColor: 'black'
-        },
-
-        button: {
-            backgroundColor: "#0077ff",
-            color: '#fff',
-            border: 'none',
-            borderRadius: 5,
-            padding: 10,
-            paddingRight: 20,
-        },
-
-    }
-
-  
+    buttonView: {
+        gap: 30,
+        height: 400
+    },
     
+    button: {
+        backgroundColor: "#271a45",
+        color: '#fff',
+        border: 'none',
+        borderRadius: 5,
+        height: 45,
+        width: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    buttonTitle: {
+        color: 'white',
+        textAlign: 'center'
+    },
+
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#04d361'
+    }
 });

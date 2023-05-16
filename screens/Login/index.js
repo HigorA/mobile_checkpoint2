@@ -1,56 +1,69 @@
-import { useState } from "react";
-import { View, Button, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { Button, Text, TextInput, View } from "react-native";
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+
+const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required()
+})
+
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  
+  const { control, handleSubmit, formState:{ errors } } = useForm({
+      resolver: yupResolver(schema)
+  })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    Login(email, password);
-  };
+  const onSubmit = data => (
+      console.log(data)
+      );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.buttonText}>Login</Text>
-      <View style={styles.form}>
-        <View>
-            <Text>E-mail</Text>
-            <TextInput style={styles.input} />
-        </View>
-        <View>
-            <Text>Password</Text>
-            <TextInput style={styles.input}/>
-        </View>
-        <Pressable style={styles.button}><Text style={styles.buttonText}>Login</Text></Pressable>
+      <View style = {styles.container}>
+          <Controller
+              control={control}
+              rules={{
+                  required: true,
+              }}
+              render={({ field: { onChange, onBlur, value}}) => (
+                  <TextInput style = {styles.input}
+                      placeholder="email"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                  />
+              )}
+              name="email"
+          />
+          {errors.email && <Text>This is required.</Text>}
+
+          <Controller
+              control={control}
+              rules={{
+                  required: true,
+              }}
+              render={({ field: { onChange, onBlur, value}}) => (
+                  <TextInput style = {styles.input}
+                      placeholder="Password"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                  />
+              )}
+              name="password"
+          />
+          {errors.password && <Text>This is required.</Text>}
+          <Button style = {styles.button} title="Submit" onPress={handleSubmit(onSubmit)} />
       </View>
-      {/* <form style={styles.form} onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input style={styles.input}
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </label>
-        <label>
-          Senha:
-          <input style={styles.input}
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-        <Button style={styles.button} type="submit" title="Login" />
-      </form> */}
-    </View>
-  );
-}
+  )
+};
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#121214',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -61,6 +74,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
+        gap: 15
     },
 
     input: {
@@ -70,22 +84,29 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 5,
         borderStyle: 'solid',
-        borderColor: 'black'
+        borderColor: '#04d361'
     },
 
     button: {
-        backgroundColor: "#d4cde8",
-        color: '#fff',
-        border: 'none',
-        borderRadius: 5,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+      backgroundColor: "#271a45",
+      border: 'none',
+      borderRadius: 5,
+      height: 45,
+      width: 100,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
 
-    buttonText: {
-        fontWeight: '500',
-        fontSize: 20,
-    }
+    buttonTitle: {
+        color: 'white',
+        textAlign: 'center'
+    },
+
+    title: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#04d361'
+  }
+
 });
