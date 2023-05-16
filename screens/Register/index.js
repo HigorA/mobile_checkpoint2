@@ -1,25 +1,37 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
-import { Button, Text, TextInput, View } from "react-native";
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'; 
-
-
-const schema = yup.object({
-    email: yup.string().email().required(),
-    password: yup.string().required()
-})
+import { async } from "@firebase/util";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { auth } from "../../firebase/firebase-api";
 
 
 export default function Register() {
+
+    const schema = yup.object({
+        email: yup.string().email().required(),
+        password: yup.string().required()
+    })
+    
     
     const { control, handleSubmit, formState:{ errors } } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        defaultValues: {
+            email: '',
+            password: ''
+        }
     })
 
-    const onSubmit = data => (
-        console.log(data)
-        );
+    const onSubmit = async (data) => {
+        console.log(data);
+        try {
+            await createUserWithEmailAndPassword(auth, data.email, data.password);
+            alert("User created!")
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     return (
         <View style = {styles.container}>
@@ -57,7 +69,11 @@ export default function Register() {
                 name="password"
             />
             {errors.password && <Text>This is required.</Text>}
-            <Button style = {styles.button} title="Submit" onPress={handleSubmit(onSubmit)} />
+            <Pressable 
+                onPress={handleSubmit(onSubmit)}
+                style={styles.button}>
+                <Text style={styles.buttonTitle}>Submit</Text>
+            </Pressable>
         </View>
     )
 };
@@ -87,7 +103,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 5,
         borderStyle: 'solid',
-        borderColor: '#04d361'
+        borderColor: '#04d361',
+        color: 'white'
     },
 
     button: {

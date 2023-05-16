@@ -1,8 +1,11 @@
-import { Button, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
+import { auth } from './../../firebase/firebase-api'
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../reducers/loginSlice";
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -10,18 +13,36 @@ const schema = yup.object({
 })
 
 
-export default function Login() {
+export default function Login({ navigation }) {
   
+  const dispatch = useDispatch();
+
   const { control, handleSubmit, formState:{ errors } } = useForm({
-      resolver: yupResolver(schema)
+      resolver: yupResolver(schema),
+      defaultValues: {
+        email: '',
+        password: ''
+    }
   })
 
-  const onSubmit = data => (
+  const onSubmit = async data => {
       console.log(data)
-      );
+      await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user.email.split('@')[0])
+          dispatch(setUser(user));
+        })
+        .catch((error) => {
+          console.log(error.code)
+          console.log(error.message)
+      })
+  }
 
   return (
       <View style = {styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <View style={styles.form}>
           <Controller
               control={control}
               rules={{
@@ -55,7 +76,18 @@ export default function Login() {
               name="password"
           />
           {errors.password && <Text>This is required.</Text>}
-          <Button style = {styles.button} title="Submit" onPress={handleSubmit(onSubmit)} />
+        </View>
+        <View style={styles.inputView}>
+          <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.buttonTitle}>Submit</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.buttonTitle}>Google</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.buttonTitle}>Register</Text>
+          </Pressable>
+        </View>
       </View>
   )
 };
@@ -66,6 +98,10 @@ const styles = StyleSheet.create({
       backgroundColor: '#121214',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+
+    inputView: {
+      gap: 30
     },
 
     form: {
@@ -84,7 +120,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 5,
         borderStyle: 'solid',
-        borderColor: '#04d361'
+        borderColor: '#04d361',
+        color: 'white',
     },
 
     button: {

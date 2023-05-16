@@ -1,11 +1,15 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 import { View } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function Play( {navigation} ) {
 
+    const user = useSelector((state) => state.login.user)
+    console.log(user)
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Choose the level</Text>
+            <Text style={styles.title}>{user}Choose the level</Text>
             <View style={styles.buttonView}>
                 <Pressable 
                     style={styles.button}
