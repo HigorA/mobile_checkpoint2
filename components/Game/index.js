@@ -4,8 +4,10 @@ import GeniusButton from "../GeniusButton";
 
 export default function Game({ route }) {
 
-    const [sequence, setSequence] = useState([])
-    const [randomSequence, setRandomSequence] = useState([])
+    const [sequence, setSequence] = useState([]);
+    const [randomSequence, setRandomSequence] = useState([]);
+    const [highlightedButton, setHighlightedButton] = useState(null);
+    const [disableButtons, setDisableButtons] = useState(false);
     const {currentValue, currentQuantity} = route.params;
     const buttons = new Array(currentQuantity).fill(0);
     const colors = [
@@ -61,6 +63,7 @@ export default function Game({ route }) {
           randomS.push(randomValue);
         }
         setRandomSequence(randomS)
+        playSequence(randomS)
     };
     
     const compareSequences = (sequence1, sequence2) => {
@@ -75,11 +78,41 @@ export default function Game({ route }) {
         return true;
     };
 
+    const highlightButton = (index) => {
+        setHighlightedButton(index); // Define o botão destacado
+        setTimeout(() => {
+          setHighlightedButton(null); // Remove o destaque após 2 segundos
+        }, 2000);
+    };
+
+    const playSequence = async (sequence) => {
+        setDisableButtons(true);
+        for (let i = 0; i < sequence.length; i++) {
+          await delay(4000); // Aguarda 2 segundos antes de destacar o próximo botão
+          highlightButton(sequence[i]);
+        }
+        setDisableButtons(false);
+    };
+    
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    
+
     return (
         <View style={styles.container}>           
-            <Text>{sequence}</Text>
             {buttons.map((_, index) => 
-                <Pressable key={index}  onPress={() => handleButtonPress(index)}>
+                <Pressable 
+                    key={index}  
+                    onPress={() => {if (!disableButtons) {
+                        handleButtonPress(index);
+                        highlightButton(index);
+                    }}} 
+                    style={({ pressed }) => [{
+                      borderWidth: highlightedButton === index ? 3 : 0,
+                      borderColor: highlightedButton != null ? "white" : 'black',
+                      borderRadius: 50,
+                      opacity: pressed ? 0.5 : 1
+                    }]}
+                >
                     <GeniusButton color={buttonColor || colors[index % colors.length]} />
                 </Pressable>
                 )
