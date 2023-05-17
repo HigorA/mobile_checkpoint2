@@ -8,6 +8,8 @@ export default function Game({ route }) {
     const [randomSequence, setRandomSequence] = useState([]);
     const [highlightedButton, setHighlightedButton] = useState(null);
     const [disableButtons, setDisableButtons] = useState(false);
+    const [isPlayingSequence, setIsPlayingSequence] = useState(false); // Variável de estado para controlar a reprodução da sequência
+    const [isPlayerTurn, setIsPlayerTurn] = useState(false);
     const {currentValue, currentQuantity} = route.params;
     const buttons = new Array(currentQuantity).fill(0);
     const colors = [
@@ -49,9 +51,11 @@ export default function Game({ route }) {
         const isMatch = compareSequences(sequence, randomSequence);
         if (isMatch) {
           console.log('Vitória! A sequência corresponde!');
+          alert('Vitória! A sequência corresponde!')
           // Exibir mensagem de vitória ou executar ação desejada
         } else {
           console.log('Derrota! A sequência não corresponde!');
+          alert('Derrota! A sequência não corresponde!')
           // Exibir mensagem de derrota ou executar ação desejada
         }
     };
@@ -87,18 +91,21 @@ export default function Game({ route }) {
 
     const playSequence = async (sequence) => {
         setDisableButtons(true);
+        setIsPlayingSequence(true);
         for (let i = 0; i < sequence.length; i++) {
-          await delay(4000); // Aguarda 2 segundos antes de destacar o próximo botão
+          await delay(3500); // Aguarda 2 segundos antes de destacar o próximo botão
           highlightButton(sequence[i]);
         }
         setDisableButtons(false);
+        setIsPlayingSequence(false)
     };
     
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     
 
     return (
-        <View style={styles.container}>           
+        <View style={styles.container}>       
+            {isPlayingSequence ? <Text style={styles.title}>Reproduzindo</Text> : <Text style={styles.title}>Pode jogar</Text>}    
             {buttons.map((_, index) => 
                 <Pressable 
                     key={index}  
@@ -132,4 +139,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#121214',
         flexWrap: 'wrap'
     },
+
+    title: {
+        color: '#04d361',
+        fontSize: 20
+    }
 })
