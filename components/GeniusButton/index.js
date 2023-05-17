@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 
-export default function GeniusButton() {
+export default function GeniusButton({color}) {
 
     return (
-        <View style={styles.GeniusButton}></View>
+        <View style={[styles.GeniusButton, {backgroundColor: color}]}></View>
     )
 };
 
